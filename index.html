@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+<style>
+*{box-sizing:border-box;}
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Kanit', sans-serif;
+    background:radial-gradient(circle at top,#ff9ad5,#ff6fa4,#ff4f7b);
+    overflow:hidden;
+}
+
+/* Floating hearts */
+.heart{
+    position:absolute;
+    font-size:18px;
+    animation:floatUp linear infinite;
+    opacity:.7;
+}
+
+@keyframes floatUp{
+    from{transform:translateY(100vh) scale(.5);}
+    to{transform:translateY(-10vh) scale(1.2);}
+}
+
+/* Glass Card */
+.main-container{
+    width:900px;
+    height:520px;
+    background:rgba(255,255,255,.25);
+    backdrop-filter:blur(25px);
+    border-radius:30px;
+    box-shadow:0 25px 60px rgba(255,0,90,.35);
+    display:flex;
+    overflow:hidden;
+    animation:fadeIn 1s ease;
+    border:2px solid rgba(255,255,255,.4);
+}
+
+/* Slider */
+.slider-section{
+    flex:1.1;
+    overflow:hidden;
+}
+.slides{
+    display:flex;
+    width:300%;
+    height:100%;
+    animation:slide 14s infinite;
+}
+.slide{
+    width:100%;
+    background-size:cover;
+    background-position:center;
+    filter:brightness(0.95) saturate(1.2);
+}
+
+/* Login */
+.login-section{
+    flex:.9;
+    background:rgba(255,255,255,.75);
+    padding:40px 25px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.cake-icon{
+    font-size:48px;
+    animation:pulse 1.5s infinite;
+}
+h2{
+    margin:10px 0 20px;
+    color:#ff3f7f;
+    letter-spacing:1px;
+}
+
+.pass-display{
+    width:85%;
+    height:50px;
+    border-radius:16px;
+    background:white;
+    box-shadow:0 0 15px rgba(255,80,150,.4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:26px;
+    letter-spacing:6px;
+    color:#ff3f7f;
+    margin-bottom:25px;
+}
+
+/* Keypad */
+.keypad{
+    width:240px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.key{
+    height:50px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(145deg,#fff,#ffd6e6);
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+    box-shadow:0 6px 15px rgba(255,80,150,.35);
+}
+
+.key:hover{transform:translateY(-4px) scale(1.02);}
+.key:active{transform:scale(.92);}
+
+.key.clear{background:#f3f3f3;}
+.key.enter{
+    grid-column:span 2;
+    background:linear-gradient(135deg,#ff4f9a,#ff1f6d);
+    color:white;
+}
+
+/* Animations */
+@keyframes slide{
+    0%,20%{transform:translateX(0);}
+    33%,53%{transform:translateX(-33.33%);}
+    66%,86%{transform:translateX(-66.66%);}
+    100%{transform:translateX(0);}
+}
+
+@keyframes pulse{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.12);}
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-12px);}
+    75%{transform:translateX(12px);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- floating hearts -->
+<script>
+for(let i=0;i<25;i++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration=(Math.random()*5+6)+"s";
+    h.style.fontSize=(Math.random()*16+14)+"px";
+    document.body.appendChild(h);
+}
+</script>
+
+<div class="main-container">
+    <div class="slider-section">
+        <div class="slides">
+            <div class="slide" style="background-image:url('photo/cute2.jpg')"></div>
+            <div class="slide" style="background-image:url('photo/637773329_3387473171415613_1576375057151999277_n.jpg')"></div>
+            <div class="slide" style="background-image:url('photo/641305659_3387472958082301_1738498640278703161_n.jpg')"></div>
+        </div>
+    </div>
+
+    <div class="login-section">
+        <div class="cake-icon">💗</div>
+        <h2>Our Secret Code</h2>
+
+        <div class="pass-display" id="display">------</div>
+
+        <div class="keypad">
+            <button class="key" onclick="press(1)">1</button>
+            <button class="key" onclick="press(2)">2</button>
+            <button class="key" onclick="press(3)">3</button>
+            <button class="key" onclick="press(4)">4</button>
+            <button class="key" onclick="press(5)">5</button>
+            <button class="key" onclick="press(6)">6</button>
+            <button class="key" onclick="press(7)">7</button>
+            <button class="key" onclick="press(8)">8</button>
+            <button class="key" onclick="press(9)">9</button>
+            <button class="key clear" onclick="clearAll()">C</button>
+            <button class="key" onclick="press(0)">0</button>
+            <button class="key enter" onclick="checkCode()">💘</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let inputCode="";
+const display=document.getElementById("display");
+
+function press(n){
+    if(inputCode.length<6){
+        inputCode+=n;
+        updateDisplay();
+    }
+}
+
+function clearAll(){
+    inputCode="";
+    updateDisplay();
+}
+
+function updateDisplay(){
+    display.innerText=inputCode.padEnd(6,"-");
+}
+
+function checkCode(){
+    if(inputCode==="150420"){
+        confetti({
+            particleCount:300,
+            spread:120,
+            origin:{y:.6},
+            colors:['#ff4f9a','#ff7eb3','#ffd1dc']
+        });
+        display.style.color="#ff1f6d";
+        setTimeout(()=>{
+            alert("💖 Happy Birthday My Love 💖\nรักเธอที่สุดเลยนะ");
+        },400);
+    }else{
+        const card=document.querySelector(".main-container");
+        card.style.animation="shake .4s";
+        display.style.color="#ff0033";
+        setTimeout(()=>{
+            card.style.animation="";
+            inputCode="";
+            updateDisplay();
+            display.style.color="#ff3f7f";
+        },400);
+    }
+}
+</script>
+
+</body>
+</html>
